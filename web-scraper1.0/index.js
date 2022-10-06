@@ -28,10 +28,34 @@ let getAftonbladet = async () => {
    return test;
   }
 
+
+  let articles = [];
+  let head = "<html><head><title>Test title</title></head><body><div>";
+  let bottom = "</div></body></html>";
+
+    axios('https://www.bbc.com/')
+     .then(function (response) {
+         const html = response.data;
+         const $ = cheerio.load(html);
+  
+         const logotype = "BBC";
+         const headline = "Test";
+         const url = "https://www.bbc.com/";
+  
+         articles.push({
+             logotype,
+             headline,
+             url
+         });
+
+         console.log(articles[0]);
+     })
+
 app.get('/', (req, res) => {
-  getAftonbladet().then(
-    function(value) { res.send( value ); },
-  );
+     getAftonbladet().then(
+       function(value) { },
+     );
+     res.send( head + articles[0] +  bottom);
   })
 
 app.listen(port, () => {
